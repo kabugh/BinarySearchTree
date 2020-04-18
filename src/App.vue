@@ -2,15 +2,30 @@
   <div class="app">
     <div class="actions__container">
       <div class="action">
+        <h2>Utwórz drzewo</h2>
+        <label for="number">Podaj rozmiar</label>
+        <input type="number" v-model="size" />
+        <button type="button" @click="createTree">Utwórz</button>
+      </div>
+      <div class="action">
         <h2>Zapisz do pliku</h2>
-        <button type="button" @click="save">Zapisz</button>
+        <button type="button" @click="saveToFile">Zapisz</button>
       </div>
       <div class="action">
         <h2>Wczytaj z pliku</h2>
         <fileReader @load="loadedTree = $event"></fileReader>
       </div>
     </div>
-
+    <div class="actions__container" v-if="tree.root">
+      <div class="action traversing__container">
+        <h2>Przejdź po drzewie</h2>
+        <div class="buttons__container">
+          <button type="button" @click="inorder">inorder</button>
+          <button type="button" @click="preorder">preorder</button>
+          <button type="button" @click="breadthFirst">breadthFirst</button>
+        </div>
+      </div>
+    </div>
     <div id="app" class="svg-container" ref="container"></div>
   </div>
 </template>
@@ -21,30 +36,47 @@ import { generateTree } from "./services/helperFunctions";
 import BinarySearchTree from "./services/tree";
 import FileReader from "./FileReader";
 import FileSaver from "file-saver";
-
 export default {
   name: "App",
   components: {
     FileReader
   },
-  mounted() {
-    this.tree = new BinarySearchTree();
-    generateTree(this.tree, 5);
-    let clonedTree = {};
-    clonedTree = Object.assign(clonedTree, this.tree);
-    run(clonedTree);
-  },
   data: () => ({
     tree: {},
+    size: 5,
     loadedTree: ""
   }),
   methods: {
-    save() {
+    createTree() {
+      this.$refs.container.children.forEach(child => {
+        if (child.className !== this.tree.root.data) {
+          this.$refs.container.removeChild(child);
+        }
+      });
+      this.tree = new BinarySearchTree();
+      generateTree(this.tree, this.size);
+      let clonedTree = {};
+      clonedTree = Object.assign(clonedTree, this.tree);
+      run(clonedTree);
+    },
+    saveToFile() {
       var blob = new Blob([JSON.stringify(this.tree)], {
         type: "text/plain;charset=utf-8"
       });
 
       FileSaver.saveAs(blob, "hello world.txt");
+    },
+    inorder() {
+      console.clear();
+      this.tree.inorder(this.tree.getRootNode());
+    },
+    preorder() {
+      console.clear();
+      this.tree.preorder(this.tree.getRootNode());
+    },
+    breadthFirst() {
+      console.clear();
+      this.tree.breadthFirst(this.tree.getRootNode());
     }
   },
   watch: {
@@ -55,6 +87,7 @@ export default {
             this.$refs.container.removeChild(child);
           }
         });
+      this.tree = this.loadedTree;
       run(this.loadedTree);
     }
   }
@@ -65,9 +98,10 @@ export default {
 .app {
   width: 100%;
   height: 100vh;
+  text-align: center;
   .actions__container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     .action {
       display: flex;
@@ -75,6 +109,18 @@ export default {
       align-items: center;
       flex-direction: column;
       padding: 0 4vh;
+      input {
+        margin: 2vh 0;
+      }
+      .buttons__container {
+        display: flex;
+      }
+    }
+  }
+  .traversing__container {
+    flex-direction: row;
+    button {
+      margin: 2vh;
     }
   }
   button {

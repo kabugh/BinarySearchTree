@@ -228,6 +228,8 @@ export function run(tree) {
     }
   }
 }
+
+export function hightlightNodes() {}
 // function renderTree(tree) {
 //   // bst.breadthFirst(bst.getRootNode());
 //   // bst.inorder(bst.getRootNode());

@@ -61,6 +61,7 @@ export default class BinarySearchTree {
       this.inorder(node.right);
     }
   }
+
   preorder(node) {
     if (node !== null) {
       console.log(node.data);
@@ -68,6 +69,7 @@ export default class BinarySearchTree {
       this.preorder(node.right);
     }
   }
+
   postorder(node) {
     if (node !== null) {
       this.postorder(node.left);
@@ -75,6 +77,7 @@ export default class BinarySearchTree {
       console.log(node.data);
     }
   }
+
   breadthFirst(root) {
     if (root === null) return;
 
@@ -89,9 +92,11 @@ export default class BinarySearchTree {
       if (removedNode.right !== null) queue.enqueue(removedNode.right);
     }
   }
+
   getRootNode() {
     return this.root;
   }
+
   clear() {
     this.root = null;
   }
