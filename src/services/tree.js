@@ -25,6 +25,7 @@ export default class BinarySearchTree {
   remove(data) {
     this.root = this.removeNode(this.root, data);
   }
+
   removeNode(node, key) {
     if (node === null) return null;
     else if (key < node.data) {
@@ -87,7 +88,6 @@ export default class BinarySearchTree {
     // console.log(queue)
     while (!queue.isEmpty()) {
       let removedNode = queue.dequeue();
-      console.log(removedNode.data);
       if (removedNode.left !== null) queue.enqueue(removedNode.left);
       if (removedNode.right !== null) queue.enqueue(removedNode.right);
     }
@@ -101,6 +101,10 @@ export default class BinarySearchTree {
     this.root = null;
   }
 
+  findMinNode(node) {
+    if (node.left === null) return node;
+    else return this.findMinNode(node.left);
+  }
   // saveToFile(object) {
   //   var str = JSON.stringify(object);
   //   try {

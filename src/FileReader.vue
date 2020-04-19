@@ -1,6 +1,6 @@
 <template>
   <label class="text-reader">
-    Wczytaj plik
+    Wczytaj
     <input type="file" @change="loadTextFromFile" />
   </label>
 </template>

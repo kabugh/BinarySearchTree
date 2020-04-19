@@ -97,7 +97,7 @@ export function run(tree) {
         if (d.data.data === null) {
           return "node hidden";
         }
-        return "node";
+        return `node n${d.data.data}`;
       })
       .attr("r", 1e-6)
       .style("fill", d => {
