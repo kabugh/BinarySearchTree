@@ -19,20 +19,27 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .text-reader {
   position: relative;
   overflow: hidden;
   display: inline-block;
   border: 2px solid black;
-  padding: 8px 12px;
+  background-color: #db0a5b;
+  padding: 4px 12px;
+  font-size: 14px !important;
   cursor: pointer;
-}
-.text-reader input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  opacity: 0;
+  transition: all 0.5s ease-in;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+  }
 }
 </style>
