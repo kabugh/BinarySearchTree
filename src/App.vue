@@ -51,7 +51,10 @@
         <div class="action">
           <h2>Przejdź po drzewie</h2>
           <div class="buttons__container">
-            <button type="button" @click="inorder">inorder</button>
+            <button type="button" @click="inorder" v-show="false">
+              inorder
+            </button>
+            <button type="button" @click="preorder">preorder</button>
             <button type="button" @click="breadthFirst">breadthFirst</button>
             <button type="button" @click="postorder">postorder</button>
           </div>
@@ -75,7 +78,6 @@ import { run } from "./services/visualisation";
 import {
   generateTree,
   inorder,
-  preorder,
   postorder,
   breadthFirst,
   insert,
@@ -94,7 +96,8 @@ export default {
     size: 5,
     loadedTree: "",
     nodeToInsert: 0,
-    nodeToRemove: 0
+    nodeToRemove: 0,
+    orders: []
   }),
   methods: {
     createTree() {
@@ -117,6 +120,13 @@ export default {
 
       FileSaver.saveAs(blob, "hello world.txt");
     },
+    iterativePreorder(node) {
+      if (node != null) {
+        this.orders.push(node.data);
+        this.iterativePreorder(node.left);
+        this.iterativePreorder(node.right);
+      }
+    },
     inorder() {
       console.clear();
       this.restartTree();
@@ -124,8 +134,15 @@ export default {
     },
     preorder() {
       console.clear();
+      this.orders = [];
       this.restartTree();
-      preorder(this.tree.root);
+      this.iterativePreorder(this.tree.root);
+      for (let i = 0; i < this.orders.length; i++) {
+        setTimeout(() => {
+          console.log(this.orders[i]);
+          document.querySelector(`.n${this.orders[i]}`).classList.add("active");
+        }, i * 500);
+      }
     },
     postorder() {
       console.clear();

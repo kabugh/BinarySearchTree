@@ -53,17 +53,6 @@ export function inorder(node) {
   }
 }
 
-export function preorder(node) {
-  if (node !== null) {
-    console.log(node.data);
-    setTimeout(() => {
-      document.querySelector(`.n${node.data}`).classList.add("active");
-      preorder(node.left);
-      preorder(node.right);
-    }, 800);
-  }
-}
-
 export function postorder(node) {
   // recursive
   // if (node !== null) {
@@ -97,6 +86,17 @@ export function postorder(node) {
       console.log(order[i]);
       document.querySelector(`.n${order[i]}`).classList.add("active");
     }, i * 500);
+  }
+}
+
+export function preorder(node) {
+  if (node !== null) {
+    console.log(node.data);
+    setTimeout(() => {
+      document.querySelector(`.n${node.data}`).classList.add("active");
+      preorder(node.left);
+      preorder(node.right);
+    }, 800);
   }
 }
 
